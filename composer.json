@@ -1,5 +1,5 @@
 {
-    "name": "helhum/typoscript-rendering",
+    "name": "madj2k/t3-typoscript-rendering",
     "type": "typo3-cms-extension",
     "description": "Can render a TypoScript path by URL, especially useful for Ajax dispatching",
     "keywords": [
@@ -7,9 +7,9 @@
         "rendering",
         "frontend"
     ],
-    "homepage": "http://insight.helhum.io/post/104880845705/dont-use-eid-ajax-dispatchers-for-your-extbase",
+    "homepage": "https://github.com/skroggel/t3-typoscript-rendering",
     "support": {
-        "issues": "https://github.com/helhum/typoscript_rendering/issues"
+        "issues": "https://github.com/skroggel/t3-typoscript-rendering/issues"
     },
     "authors": [
         {
@@ -17,12 +17,18 @@
             "email": "info@helhum.io",
             "role": "Developer",
             "homepage": "http://helhum.io"
+        },
+        {
+            "name": "Steffen Kroggel",
+            "email": "developer@steffenkroggel.de",
+            "role": "Developer",
+            "homepage": "http://www.steffenkroggel.de"
         }
     ],
     "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=7.2",
-        "typo3/cms-core": "^12"
+        "typo3/cms-core": "^13"
     },
     "require-dev": {
         "nimut/testing-framework": "^6.0",
@@ -39,7 +45,8 @@
         }
     },
     "replace": {
-        "typo3-ter/typoscript-rendering": "self.version"
+        "typo3-ter/typoscript-rendering": "self.version",
+        "helhum/typoscript-rendering": "self.version"
     },
     "config": {
         "vendor-dir": ".Build/vendor",

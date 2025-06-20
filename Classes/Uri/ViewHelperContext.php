@@ -61,9 +61,8 @@ class ViewHelperContext
 
     public function getContentObject(): ContentObjectRenderer
     {
-        $configurationManager = $this->configurationManager ?? GeneralUtility::makeInstance(ConfigurationManager::class);
-        $contentObject = $configurationManager->getContentObject();
-
+        $contentObject =  $this->getRequest()->getAttribute('currentContentObject');
         return $contentObject ?? GeneralUtility::makeInstance(ContentObjectRenderer::class);
     }
+
 }

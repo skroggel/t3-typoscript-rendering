@@ -15,7 +15,9 @@ namespace Helhum\TyposcriptRendering\Configuration;
  */
 
 use Helhum\TyposcriptRendering\Renderer\RenderingContext;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class RecordRenderingConfigurationBuilder
 {
@@ -122,12 +124,20 @@ class RecordRenderingConfigurationBuilder
      */
     protected function resolveRenderingPath($pluginSignature)
     {
-        $typoScriptRenderingSetup = $this->renderingContext->getFrontendController()->tmpl->setup['tt_content.'];
-        if (isset($typoScriptRenderingSetup[$pluginSignature . '.']['20'])) {
+
+        $typoScriptRenderingSetup = $this->getRequest()->getAttribute('frontend.typoscript')->getSetupArray();
+
+        if (isset($typoScriptRenderingSetup['tt_content.'][$pluginSignature . '.']['20'])) {
             return sprintf('tt_content.%s.20', $pluginSignature);
-        } elseif (isset($typoScriptRenderingSetup['list.']['20.'][$pluginSignature])) {
+        } elseif (isset($typoScriptRenderingSetup['tt_content.']['list.']['20.'][$pluginSignature])) {
             return sprintf('tt_content.list.20.%s', $pluginSignature);
         }
         throw new ConfigurationBuildingException(sprintf('Could not determine rendering location for plugin signature "%s"', $pluginSignature), 1466779430);
     }
+
+    private function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
+    }
+
 }

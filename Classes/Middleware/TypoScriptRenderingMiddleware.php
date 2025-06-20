@@ -37,24 +37,30 @@ class TypoScriptRenderingMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $frontendController = $GLOBALS['TSFE'];
+        $frontendController = $request->getAttribute('frontend.controller');
         $requestedContentType = $frontendController->config['config']['contentType'] ?? self::defaultContentType;
+
         if (!$frontendController->isGeneratePage() || !isset($request->getQueryParams()[self::argumentNamespace])) {
-            return $handler->handle($request);# $this->amendContentType(, $requestedContentType);
+            return $handler->handle($request);
         }
+
         $this->ensureRequiredEnvironment();
+
         $frontendController->config['config']['debug'] = 0;
         $frontendController->config['config']['disableAllHeaderCode'] = 1;
         $frontendController->config['config']['disableCharsetHeader'] = 0;
-        $frontendController->pSetup = [
+
+        $pluginSetup = [
             '10' => 'TYPOSCRIPT_RENDERING',
             '10.' => [
                 'request' => $request->getQueryParams()[self::argumentNamespace],
             ],
         ];
 
+        $request = $request->withAttribute('plugin.typoscript.rendering', $pluginSetup);
         return $this->amendContentType($handler->handle($request), $requestedContentType);
     }
+
 
     /**
      * TYPO3's frontend rendering allows to influence the content type,
