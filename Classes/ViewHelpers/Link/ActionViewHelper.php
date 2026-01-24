@@ -41,10 +41,10 @@ class ActionViewHelper extends AbstractTagBasedViewHelper
     /**
      * Arguments initialization
      */
-    public function initializeArguments()
+    #[\Override]
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerUniversalTagAttributes();
         $this->registerTagAttribute('name', 'string', 'Specifies the name of an anchor');
         $this->registerTagAttribute('rel', 'string', 'Specifies the relationship between the current document and the linked document');
         $this->registerTagAttribute('rev', 'string', 'Specifies the relationship between the linked document and the current document');
@@ -71,9 +71,10 @@ class ActionViewHelper extends AbstractTagBasedViewHelper
     /**
      * @return string Rendered link
      */
+    #[\Override]
     public function render()
     {
-        $uri = (new TyposcriptRenderingUri())->withViewHelperContext(
+        $uri = new TyposcriptRenderingUri()->withViewHelperContext(
             new ViewHelperContext(
                 $this->renderingContext,
                 $this->arguments

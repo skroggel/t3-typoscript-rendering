@@ -41,10 +41,10 @@ class CObjectViewHelper extends AbstractTagBasedViewHelper
     /**
      * Arguments initialization
      */
-    public function initializeArguments()
+    #[\Override]
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerUniversalTagAttributes();
         $this->registerArgument('typoscriptObjectPath', 'string', 'TypoScript rendering path');
         $this->registerArgument('contextRecord', 'string', 'The record that the rendering should depend upon. e.g. current (default: record is fetched from current Extbase plugin), tt_content:12 (tt_content record with uid 12), pages:15 (pages record with uid 15), \'currentPage\' record of current page', false, 'current');
         $this->registerTagAttribute('name', 'string', 'Specifies the name of an anchor');
@@ -67,9 +67,10 @@ class CObjectViewHelper extends AbstractTagBasedViewHelper
     /**
      * @return string Rendered link
      */
+    #[\Override]
     public function render()
     {
-        $uri = (new TyposcriptRenderingUri())->withViewHelperContext(
+        $uri = new TyposcriptRenderingUri()->withViewHelperContext(
             new ViewHelperContext(
                 $this->renderingContext,
                 $this->arguments
