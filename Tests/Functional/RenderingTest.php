@@ -25,7 +25,7 @@ class RenderingTest extends AbstractRenderingTestCase
     {
         $requestArguments = ['url' => $this->getRenderUrl(1, 1, 'lib.link')];
         $expectedContent = '<a href="/da/" target="_blank">link</a>';
-        $actualContent = trim($this->fetchFrontendResponse($requestArguments)->getContent());
+        $actualContent = trim((string) $this->fetchFrontendResponse($requestArguments)->getContent());
         $this->assertSame($expectedContent, $actualContent);
     }
 
@@ -39,7 +39,7 @@ class RenderingTest extends AbstractRenderingTestCase
         if (!interface_exists(PackageCacheInterface::class)) {
             $expectedContent = '<a href="javascript:linkTo_UnCryptMailto(%27ocknvq%2CkphqBjgnjwo0kq%27);">info(AT)helhum(DOT)io</a>';
         }
-        $actualContent = trim($this->fetchFrontendResponse($requestArguments)->getContent());
+        $actualContent = trim((string) $this->fetchFrontendResponse($requestArguments)->getContent());
         $this->assertSame($expectedContent, $actualContent);
     }
 
@@ -50,7 +50,7 @@ class RenderingTest extends AbstractRenderingTestCase
     {
         $requestArguments = ['url' => $this->getRenderUrl(1, 1, 'lib.viewHelper')];
         $expectedContent = '/da/?tx_typoscriptrendering%5Bcontext%5D=%7B%22record%22%3A%22pages_1%22%2C%22path%22%3A%22tt_content.typoscriptrendering_plugintest.20%22%7D&amp;tx_typoscriptrendering_plugintest%5Bcontroller%5D=Foo&amp;cHash=05eba63c2a1d73fbdb2e4702e42fab9e';
-        $actualContent = trim($this->fetchFrontendResponse($requestArguments)->getContent());
+        $actualContent = trim((string) $this->fetchFrontendResponse($requestArguments)->getContent());
         $this->assertSame($expectedContent, $actualContent);
     }
 
@@ -61,7 +61,7 @@ class RenderingTest extends AbstractRenderingTestCase
     {
         $requestArguments = ['url' => $this->getRenderUrl(1, 1, 'lib.cObjectUriViewHelper')];
         $expectedContent = '/da/?tx_typoscriptrendering%5Bcontext%5D=%7B%22record%22%3A%22pages_1%22%2C%22path%22%3A%22lib.foo%22%7D&amp;cHash=cb0d36cfb1819138f899192eda25168e';
-        $actualContent = trim($this->fetchFrontendResponse($requestArguments)->getContent());
+        $actualContent = trim((string) $this->fetchFrontendResponse($requestArguments)->getContent());
         $this->assertSame($expectedContent, $actualContent);
     }
 
@@ -72,7 +72,7 @@ class RenderingTest extends AbstractRenderingTestCase
     {
         $requestArguments = ['url' => $this->getRenderUrl(1, 1, 'lib.cObjectLinkViewHelper')];
         $expectedContent = '<a href="/da/?tx_typoscriptrendering%5Bcontext%5D=%7B%22record%22%3A%22pages_1%22%2C%22path%22%3A%22lib.foo%22%7D&amp;cHash=cb0d36cfb1819138f899192eda25168e">Link</a>';
-        $actualContent = trim($this->fetchFrontendResponse($requestArguments)->getContent());
+        $actualContent = trim((string) $this->fetchFrontendResponse($requestArguments)->getContent());
         $this->assertSame($expectedContent, $actualContent);
     }
 
@@ -83,7 +83,7 @@ class RenderingTest extends AbstractRenderingTestCase
     {
         $requestArguments = ['url' => $this->getRenderUrl(1, 1, 'lib.oldViewHelper')];
         $expectedContent = '/da/?tx_typoscriptrendering%5Bcontext%5D=%7B%22record%22%3A%22pages_1%22%2C%22path%22%3A%22tt_content.typoscriptrendering_plugintest.20%22%7D&amp;tx_typoscriptrendering_plugintest%5Bcontroller%5D=Foo&amp;cHash=05eba63c2a1d73fbdb2e4702e42fab9e';
-        $actualContent = trim($this->fetchFrontendResponse($requestArguments)->getContent());
+        $actualContent = trim((string) $this->fetchFrontendResponse($requestArguments)->getContent());
         $this->assertSame($expectedContent, $actualContent);
     }
 
@@ -94,7 +94,7 @@ class RenderingTest extends AbstractRenderingTestCase
     {
         $requestArguments = ['url' => $this->getRenderUrl(1, 1, 'lib.linkViewHelper')];
         $expectedContent = '<a href="/da/?tx_typoscriptrendering%5Bcontext%5D=%7B%22record%22%3A%22pages_1%22%2C%22path%22%3A%22tt_content.typoscriptrendering_plugintest.20%22%7D&amp;tx_typoscriptrendering_plugintest%5Bcontroller%5D=Foo&amp;cHash=05eba63c2a1d73fbdb2e4702e42fab9e">Link</a>';
-        $actualContent = trim($this->fetchFrontendResponse($requestArguments)->getContent());
+        $actualContent = trim((string) $this->fetchFrontendResponse($requestArguments)->getContent());
         $this->assertSame($expectedContent, $actualContent);
     }
 }

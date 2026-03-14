@@ -24,8 +24,8 @@ use TYPO3\CMS\Core\Exception;
  */
 class TypoScriptRenderingMiddleware implements MiddlewareInterface
 {
-    private const argumentNamespace = 'tx_typoscriptrendering';
-    private const defaultContentType = 'text/html';
+    private const string argumentNamespace = 'tx_typoscriptrendering';
+    private const string defaultContentType = 'text/html';
 
     /**
      * Dispatches the request to the corresponding typoscript_rendering configuration
@@ -84,8 +84,8 @@ class TypoScriptRenderingMiddleware implements MiddlewareInterface
             return $response;
         }
         $originalContentTypeHeader = $response->getHeader('Content-Type')[0];
-        if (strpos($originalContentTypeHeader, self::defaultContentType) !== 0
-            || strpos($originalContentTypeHeader, $requestedContentType) === 0
+        if (!str_starts_with($originalContentTypeHeader, self::defaultContentType)
+            || str_starts_with($originalContentTypeHeader, $requestedContentType)
         ) {
             return $response;
         }
@@ -97,7 +97,7 @@ class TypoScriptRenderingMiddleware implements MiddlewareInterface
      * @return void
      *
      */
-    private function ensureRequiredEnvironment()
+    private function ensureRequiredEnvironment(): void
     {
         if (empty($GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'])) {
             throw new Exception('$GLOBALS[\'TYPO3_CONF_VARS\'][\'FE\'][\'pageNotFoundOnCHashError\'] needs to be enabled when using out of bound typoscript rendering!', 1403808246);

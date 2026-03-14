@@ -14,44 +14,25 @@ namespace Helhum\TyposcriptRendering\Uri;
  * LICENSE file that was distributed with this source code.
  *
  */
-
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 class ViewHelperContext
 {
-    /**
-     * @var RenderingContextInterface
-     */
-    private $renderingContext;
-
-    /**
-     * @var array
-     */
-    private $arguments;
-
-    /**
-     * @var ConfigurationManager
-     */
-    private $configurationManager;
-
-    public function __construct(RenderingContextInterface $renderingContext, array $arguments, ConfigurationManager $configurationManager = null)
+    public function __construct(private readonly RenderingContextInterface $renderingContext, private readonly array $arguments, private readonly ?ConfigurationManager $configurationManager = null)
     {
-        $this->renderingContext = $renderingContext;
-        $this->arguments = $arguments;
-        $this->configurationManager = $configurationManager;
     }
 
 
     public function getRequest()
     {
-        if ($this->renderingContext instanceof \TYPO3\CMS\Fluid\Core\Rendering\RenderingContext) {
+        if ($this->renderingContext instanceof RenderingContext) {
             return $this->renderingContext->getRequest();
         }
+        return null;
     }
 
     public function getArguments(): array

@@ -18,16 +18,13 @@ use Helhum\TyposcriptRendering\Uri\TyposcriptRenderingUri;
 use Helhum\TyposcriptRendering\Uri\ViewHelperContext;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class UriViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
     /**
      * Initialize arguments
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         // @deprecated
         $this->registerArgument('useCacheHash', 'bool', 'Deprecated: True whether the cache hash should be appended to the URL', false, null);
@@ -50,19 +47,19 @@ class UriViewHelper extends AbstractViewHelper
      * @param RenderingContextInterface $renderingContext
      * @return string
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    #[\Override]
+    public function render()
     {
-        if ($arguments['ajax'] !== true) {
+        if ($this->arguments['ajax'] !== true) {
             // @deprecated
             trigger_error('Setting the argument "ajax" to false is deprecated. Use the TYPO3 widget view helper instead for such use case.', E_USER_DEPRECATED);
         }
-        $uri = (new TyposcriptRenderingUri())->withWidgetContext(
+        $uri = new TyposcriptRenderingUri()->withWidgetContext(
             new ViewHelperContext(
-                $renderingContext,
-                $arguments
+                $this->renderingContext,
+                $this->arguments
             )
         );
-
         return (string)$uri;
     }
 }

@@ -31,7 +31,7 @@ class RecordRenderer implements RenderingInterface
      *
      * @return void
      */
-    public function renderRequest(Request $request, Response $response, RenderingContext $renderingContext)
+    public function renderRequest(Request $request, Response $response, RenderingContext $renderingContext): void
     {
         $contentObjectRenderer = new ContentObjectRenderer();
         $content = $contentObjectRenderer->cObjGetSingle('RECORDS', $this->resolveRenderingConfiguration($request, $renderingContext));
@@ -64,8 +64,8 @@ class RecordRenderer implements RenderingInterface
             $renderingPath = $request->getArgument('path');
         }
         if ($request->hasArgument('record')) {
-            if (strpos($request->getArgument('record'), '_') !== false) {
-                list($table, $id) = GeneralUtility::revExplode('_', $request->getArgument('record'), 2);
+            if (str_contains((string) $request->getArgument('record'), '_')) {
+                [$table, $id] = GeneralUtility::revExplode('_', $request->getArgument('record'), 2);
             } else {
                 $id = $request->getArgument('record');
             }
@@ -76,7 +76,7 @@ class RecordRenderer implements RenderingInterface
 
         if (empty($table) && empty($id)) {
             $table = 'pages';
-            $id = $renderingContext->getFrontendController()->id;
+            $id = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId();
         }
 
         if (!empty($id) && empty($table)) {

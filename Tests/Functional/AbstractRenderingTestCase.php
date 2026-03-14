@@ -70,7 +70,7 @@ abstract class AbstractRenderingTestCase extends FunctionalTestCase
     protected function fetchFrontendResponse(array $requestArguments, $failOnFailure = true)
     {
         if (!empty($requestArguments['url'])) {
-            $requestUrl = '/' . ltrim($requestArguments['url'], '/');
+            $requestUrl = '/' . ltrim((string) $requestArguments['url'], '/');
         } else {
             $requestUrl = '/?' . GeneralUtility::implodeArrayForUrl('', $requestArguments);
         }
@@ -92,7 +92,7 @@ abstract class AbstractRenderingTestCase extends FunctionalTestCase
 
         $php = DefaultPhpProcess::factory();
         $response = $php->runJob($template->render());
-        $result = json_decode($response['stdout'], true);
+        $result = json_decode((string) $response['stdout'], true);
 
         if ($result === null) {
             $this->fail('Frontend Response is empty: ' . $response['stdout'] . $response['stderr']);

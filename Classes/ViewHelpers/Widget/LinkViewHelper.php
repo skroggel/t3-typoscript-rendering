@@ -32,10 +32,10 @@ class LinkViewHelper extends AbstractTagBasedViewHelper
      *
      * @api
      */
-    public function initializeArguments()
+    #[\Override]
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerUniversalTagAttributes();
         $this->registerTagAttribute('name', 'string', 'Specifies the name of an anchor');
         $this->registerTagAttribute('rel', 'string', 'Specifies the relationship between the current document and the linked document');
         $this->registerTagAttribute('rev', 'string', 'Specifies the relationship between the linked document and the current document');
@@ -60,6 +60,7 @@ class LinkViewHelper extends AbstractTagBasedViewHelper
      *
      * @return string The rendered link
      */
+    #[\Override]
     public function render()
     {
         $arguments = $this->arguments;
@@ -68,7 +69,7 @@ class LinkViewHelper extends AbstractTagBasedViewHelper
             // @deprecated
             trigger_error('Setting the argument "ajax" to false is deprecated. Use the TYPO3 widget view helper instead for such use case.', E_USER_DEPRECATED);
         }
-        $uri = (new TyposcriptRenderingUri())->withWidgetContext(
+        $uri = new TyposcriptRenderingUri()->withWidgetContext(
             new ViewHelperContext(
                 $this->renderingContext,
                 $arguments
