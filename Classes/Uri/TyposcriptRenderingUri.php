@@ -13,7 +13,7 @@ namespace Helhum\TyposcriptRendering\Uri;
  * LICENSE file that was distributed with this source code.
  *
  */
-
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use Helhum\TyposcriptRendering\Configuration\ConfigurationBuildingException;
 use Helhum\TyposcriptRendering\Configuration\RecordRenderingConfigurationBuilder;
 use Helhum\TyposcriptRendering\Renderer\RenderingContext;
@@ -81,7 +81,7 @@ class TyposcriptRenderingUri extends Uri
         }
         $additionalParams['tx_typoscriptrendering']['context'] = json_encode($renderingConfiguration);
 
-        $uriBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder::class);
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         $uriBuilder->reset()->setRequest($request);
         if (is_callable([$uriBuilder, 'setUseCacheHash'])) {
             $uriBuilder->setUseCacheHash(true);
@@ -200,6 +200,7 @@ class TyposcriptRenderingUri extends Uri
         return $configurationBuilder->configurationForPath($renderingPath, $contextRecordId);
     }
 
+    #[\Override]
     protected function parseUri($uri, $removeControllerArgument = false): void
     {
         if ($removeControllerArgument) {

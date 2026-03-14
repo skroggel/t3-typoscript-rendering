@@ -17,7 +17,6 @@ namespace Helhum\TyposcriptRendering\Configuration;
 use Helhum\TyposcriptRendering\Renderer\RenderingContext;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class RecordRenderingConfigurationBuilder
 {
@@ -45,7 +44,7 @@ class RecordRenderingConfigurationBuilder
      */
     public function configurationFor(string $extensionName, string $pluginName, string $contextRecord = 'currentPage'): array
     {
-        list($tableName, $uid) = $this->resolveTableNameAndUidFromContextString($contextRecord);
+        [$tableName, $uid] = $this->resolveTableNameAndUidFromContextString($contextRecord);
         $pluginSignature = $this->buildPluginSignature($extensionName, $pluginName);
         $renderingPath = $this->resolveRenderingPath($pluginSignature);
         return [
@@ -64,7 +63,7 @@ class RecordRenderingConfigurationBuilder
      */
     public function configurationForPath(string $renderingPath, string $contextRecord = 'currentPage'): array
     {
-        list($tableName, $uid) = $this->resolveTableNameAndUidFromContextString($contextRecord);
+        [$tableName, $uid] = $this->resolveTableNameAndUidFromContextString($contextRecord);
         return [
             'record' => $tableName . '_' . $uid,
             'path' => $renderingPath,
@@ -82,11 +81,11 @@ class RecordRenderingConfigurationBuilder
     protected function resolveTableNameAndUidFromContextString(string $contextRecord): array
     {
         if ($contextRecord === 'currentPage') {
-            $tableNameAndUid = ['pages', $this->renderingContext->getFrontendController()->id];
+            $tableNameAndUid = ['pages', $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId()];
         } else {
             $tableNameAndUid = explode(':', $contextRecord);
             if (count($tableNameAndUid) !== 2 || empty($tableNameAndUid[0]) || empty($tableNameAndUid[1]) || !MathUtility::canBeInterpretedAsInteger($tableNameAndUid[1])) {
-                $tableNameAndUid = ['pages', $this->renderingContext->getFrontendController()->id];
+                $tableNameAndUid = ['pages', $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId()];
             }
         }
         // TODO: maybe check if the record is available

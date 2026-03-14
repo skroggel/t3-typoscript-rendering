@@ -1,4 +1,4 @@
 <?php
 return [
-    'Helhum\\TyposcriptRendering\\ViewHelpers\\Uri\\AjaxActionViewHelper' => \Helhum\TyposcriptRendering\ViewHelpers\Uri\ActionViewHelper::class,
+    \Helhum\TyposcriptRendering\ViewHelpers\Uri\AjaxActionViewHelper::class => \Helhum\TyposcriptRendering\ViewHelpers\Uri\ActionViewHelper::class,
 ];

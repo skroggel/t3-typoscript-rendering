@@ -35,7 +35,7 @@ class RecordRendererTest extends UnitTestCase
 
     protected function setUp(): void
     {
-        $this->renderer = $this->getAccessibleMock('Helhum\\TyposcriptRendering\\Renderer\\RecordRenderer', ['dummy']);
+        $this->renderer = $this->getAccessibleMock(RecordRenderer::class, ['dummy']);
     }
 
     protected function tearDown(): void

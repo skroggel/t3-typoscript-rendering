@@ -16,9 +16,7 @@ namespace Helhum\TyposcriptRendering\ViewHelpers\Uri;
 
 use Helhum\TyposcriptRendering\Uri\TyposcriptRenderingUri;
 use Helhum\TyposcriptRendering\Uri\ViewHelperContext;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 /**
  * A view helper for creating URIs to render individual extbase actions.
@@ -35,14 +33,12 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  */
 class ActionViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
     /**
      * Initialize arguments
      *
      * @api
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('action', 'string', 'Target action');
         $this->registerArgument('arguments', 'array', 'Arguments', false, []);
@@ -63,15 +59,15 @@ class ActionViewHelper extends AbstractViewHelper
         $this->registerArgument('contextRecord', 'string', 'The record that the rendering should depend upon. e.g. current (default: record is fetched from current Extbase plugin), tt_content:12 (tt_content record with uid 12), pages:15 (pages record with uid 15), \'currentPage\' record of current page', false, 'current');
     }
 
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    #[\Override]
+    public function render()
     {
-        $uri = (new TyposcriptRenderingUri())->withViewHelperContext(
+        $uri = new TyposcriptRenderingUri()->withViewHelperContext(
             new ViewHelperContext(
-                $renderingContext,
-                $arguments
+                $this->renderingContext,
+                $this->arguments
             )
         );
-
         return (string)$uri;
     }
 }
